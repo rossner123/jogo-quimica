@@ -1,0 +1,43 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.areaPalavras{
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+}
+
+.cel {
+    height: 40px;
+    width: 40px;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 20px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    user-select: none;
+}
+
+.cel.selecionada{
+    background-color: rgb(249, 87, 87);
+}
+
+.cel.achada{
+    background-color: forestgreen;
+}

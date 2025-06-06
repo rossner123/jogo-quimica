@@ -75,6 +75,8 @@ const c_text = document.getElementById("c_text")
 const d_text = document.getElementById("d_text")
 const e_text = document.getElementById("e_text")
 
+let contador = 0
+
 
 const palavrasCertas = [
   "agua", "glicose", "etanol", "oxigenio", "amonia", "butano", "ferro", "sacarose", "aluminio", "sodio", "acido", "calcio"
@@ -252,6 +254,11 @@ celulas.forEach((cel) => {
 
   if (palavrasCertas.includes(palavraSelecionada)) {
     caminho.forEach((c) => {
+
+      document.querySelectorAll("li").forEach((li) => {
+        li.classList.remove("respCerta", "respErrada");
+      });
+
       c.classList.add("selecionada");
       setTimeout(() => {
         c.classList.add("achada");
@@ -275,22 +282,35 @@ celulas.forEach((cel) => {
 
           const radios = document.querySelectorAll('input[name="q1"]');
           let respostaSelecionada = null;
+          let liSelecionado = null
 
           radios.forEach((radio) => {
             if (radio.checked) {
-              respostaSelecionada = document.getElementById(
-                `${radio.value}_text`
-              ).textContent;
+              const spanSelecionado = document.getElementById(`${radio.value}_text`)
+              respostaSelecionada = spanSelecionado.textContent
+              liSelecionado = spanSelecionado.closest("li")
             }
           });
 
           if (respostaSelecionada === respostas[indicePalavra]) {
-            alert("Parabén!!! +1"); //TROCAR ISSO POR ALGO MAIS ACEITÁVEL
+            if (liSelecionado) {
+              liSelecionado.classList.add("respCerta")
+              contador-=-1 //brinks
+              document.getElementById("pontos").innerHTML = contador
+            }
           } else {
-            alert("Errou troxa");
+            if (liSelecionado) {
+              liSelecionado.classList.add("respErrada")
+              caminho.forEach((cels) => {
+                cels.style.backgroundColor = "#e74c3c"
+              })
+            }
           }
 
-          modal.style.display = "none";
+          setTimeout(() => {
+            modal.style.display = "none"
+          }, 1000)
+          
         });
       }, 500);
     });

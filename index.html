@@ -7,10 +7,44 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="sla">
-        <div class="perguntas"></div>
-    </div>
-    <div class="sla">
+    <div class="container">
+        <form action="" class="pergunta" id="pergunta">
+           <header>
+            <h2 class="headerText">Quiz Química</h2>
+           </header>
+
+           <div class="perguntaBody">
+            <h2 id="perguntaText">Pergunta blablablablabla</h2>
+
+            <ul>
+                <li>
+                    <input type="radio" name="q1" id="a" value="a">
+                    <label for="a" id="a_text">Resposta</label>
+                </li>
+                <li>
+                    <input type="radio" name="q1" id="b" value="b">
+                    <label for="b" id="b_text">Resposta</label>
+                </li>
+                <li>
+                    <input type="radio" name="q1" id="c" value="c">
+                    <label for="c" id="c_text">Resposta</label>
+                </li>
+                <li>
+                    <input type="radio" name="q1" id="d" value="d">
+                    <label for="d" id="d_text">Resposta</label>
+                </li>
+                <li>
+                    <input type="radio" name="q1" id="e" value="e">
+                    <label for="e" id="e_text">Resposta</label>
+                </li>
+            </ul>
+           </div>
+           
+           <footer>
+            <button type="button" id="btn">Verificar</button>
+           </footer>
+        </form>
+    
         <div class="areaPalavras"></div>
     </div>
 

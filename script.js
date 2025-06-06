@@ -1,10 +1,86 @@
 const perguntas = [
-  { dica: "Unidade usada para contar partículas na química", rescolta: "MOL" },
-  { dica: "Valor da constante de Avogadro", rescolta: "6.022E23" },
-  { dica: "Massa de 1 mol de uma substância", rescolta: "MASSAMOLAR" },
+  "Quantos mols existem em 36 g de água?",
+  "Qual a massa de 1,5 mols de glicose (C₆H₁₂O₆)?",
+  "Calcule a massa molar do etanol (C₂H₆O).",
+  "Qual o número de moléculas em 0,5 mol de oxigênio?",
+  "Quantas moléculas existem em 2 mols de amônia (NH₃)?",
+  "Qual a massa molar do gás butano (C₄H₁₀)?",
+  "Calcule a massa de 4 mols de óxido de ferro (Fe₂O₃).",
+  "Calcule a massa molar da sacarose (C₁₂H₂₂O₁₁).",
+  "Calcule o número de átomos em 2 mols de alumínio metálico.",
+  "Quantos elétrons há em 1 mol de átomos de sódio neutros?",
+  "Calcule a massa molar do ácido sulfúrico (H₂SO₄).",
+  "Quantos mols há em 120 g de cálcio?"
 ];
 
-const palavrasCertas = ["MOL", "AVOGADRO", "MASSAMOLAR"];
+const respostas = [
+  "2",            // H2O: 36g / 18g/mol
+  "270",          // 1,5 mol * 180g/mol
+  "46",           // etanol
+  "3.01e23",      // 0.5 * 6.022e23
+  "1.204e24",     // 2 * 6.022e23
+  "58",           // C4H10
+  "639.6",        // 4 * 159.9
+  "342",          // sacarose
+  "1.204e24",     // 2 mol * 6.022e23
+  "6.022e23",     // 1 mol de sódio → 1 elétron por átomo
+  "98",           // H2SO4
+  "3"             // 120 / 40 (massa molar do Ca)
+];
+
+const alternativas = [
+  // 1. Quantos mols existem em 36 g de água? (36 / 18 = 2)
+  ["1", "1.5", "2", "2.5", "3"],
+
+  // 2. Qual a massa de 1,5 mols de glicose (C₆H₁₂O₆)? (1.5 * 180 = 270)
+  ["180", "250", "270", "300", "330"],
+
+  // 3. Calcule a massa molar do etanol (C₂H₆O). (2*12 + 6*1 + 1*16 = 46)
+  ["44", "45", "46", "47", "48"],
+
+  // 4. Qual o número de moléculas em 0,5 mol de oxigênio? (0.5 * 6.022e23 ≈ 3.01e23)
+  ["6.022e23", "1.204e24", "3.01e23", "2e23", "4.5e23"],
+
+  // 5. Quantas moléculas existem em 2 mols de amônia (NH₃)? (2 * 6.022e23 ≈ 1.204e24)
+  ["6.022e23", "1.204e24", "2.01e23", "1e24", "2e24"],
+
+  // 6. Qual a massa molar do gás butano (C₄H₁₀)? (4*12 + 10*1 = 48 + 10 = 58)
+  ["56", "58", "60", "62", "64"],
+
+  // 7. Calcule a massa de 4 mols de óxido de ferro (Fe₂O₃). (159.9 * 4 ≈ 639.6)
+  ["620", "639.6", "650", "670", "600"],
+
+  // 8. Calcule a massa molar da sacarose (C₁₂H₂₂O₁₁). (12*12 + 22*1 + 11*16 = 342)
+  ["340", "342", "345", "350", "355"],
+
+  // 9. Calcule o número de átomos em 2 mols de alumínio metálico. (2 * 6.022e23 ≈ 1.204e24)
+  ["6.022e23", "1e24", "1.204e24", "2e24", "1.5e24"],
+
+  // 10. Quantos elétrons há em 1 mol de átomos de sódio neutros? (1 mol = 6.022e23 elétrons)
+  ["1e23", "3.01e23", "6.022e23", "1e24", "9e23"],
+
+  // 11. Calcule a massa molar do ácido sulfúrico (H₂SO₄). (2*1 + 32 + 4*16 = 98)
+  ["96", "98", "100", "102", "94"],
+
+  // 12. Quantos mols há em 120 g de cálcio? (massa molar = 40 → 120 / 40 = 3)
+  ["2", "2.5", "3", "3.5", "4"]
+];
+
+
+const modal = document.getElementById("pergunta")
+const perguntaText = document.getElementById("perguntaText")
+const a_text = document.getElementById("a_text")
+const b_text = document.getElementById("b_text")
+const c_text = document.getElementById("c_text")
+const d_text = document.getElementById("d_text")
+const e_text = document.getElementById("e_text")
+
+
+const palavrasCertas = [
+  "agua", "glicose", "etanol", "oxigenio", "amonia", "butano", "ferro", "sacarose", "aluminio", "sodio", "acido", "calcio"
+].map((palavra) => palavra.toUpperCase());
+
+let palavrasAchadas = []
 
 const areaPalavras = document.querySelector(".areaPalavras");
 const linhas = 15;
@@ -19,7 +95,6 @@ for (let i = 0; i < linhas * colunas; i++) {
 }
 
 function colocarPalavras(palavra) {
-
   const direcoes = [
     { dx: 1, dy: 0 }, // direita
     { dx: -1, dy: 0 }, // esquerda
@@ -31,42 +106,55 @@ function colocarPalavras(palavra) {
     { dx: -1, dy: -1 }, // diagonal cima esquerda
   ];
 
-  let linhaC = Math.floor(Math.random() * linhas);
-  let colC = Math.floor(Math.random() * colunas);
-  let dir = direcoes[Math.floor(Math.random() * direcoes.length)];
-  let dx = dir.dx
-  let dy = dir.dy
-  let cabe = true;
+  let tentativas = 0;
+  let maxTentativas = 100;
 
-  for (let i = 0; i < palavra.length; i++) {
-    let linha = linhaC + dy * i;
-    let coluna = colC + dx * i;
+  while (tentativas < maxTentativas) {
+    let linhaC = Math.floor(Math.random() * linhas);
+    let colC = Math.floor(Math.random() * colunas);
+    let dir = direcoes[Math.floor(Math.random() * direcoes.length)];
+    let dx = dir.dx;
+    let dy = dir.dy;
+    let cabe = true;
 
-    if (linha < 0 || linha >= linhas || coluna < 0 || coluna >= colunas) {
-      cabe = false;
-      break;
-    }
-  }
-
-  if (cabe) {
     for (let i = 0; i < palavra.length; i++) {
       let linha = linhaC + dy * i;
       let coluna = colC + dx * i;
 
-      grid[linha][coluna] = palavra[i];
+      if (linha < 0 || linha >= linhas || coluna < 0 || coluna >= colunas) {
+        cabe = false;
+        break;
+      }
+
+      // impede sobrescrever letras diferentes
+      if (grid[linha][coluna] !== "" && grid[linha][coluna] !== palavra[i]) {
+        cabe = false;
+        break;
+      }
     }
-  } else {
-    console.log("deu errado");
-    colocarPalavras("MOL");
+
+    if (cabe) {
+      for (let i = 0; i < palavra.length; i++) {
+        let linha = linhaC + dy * i;
+        let coluna = colC + dx * i;
+        grid[linha][coluna] = palavra[i];
+      }
+
+      console.log(
+        `Palavra "${palavra}" colocada em:\nLinha: ${linhaC}\nColuna: ${colC}\ndx: ${dx}\ndy: ${dy}`
+      );
+      return;
+    }
+
+    tentativas++;
   }
 
-  console.log(`A palavra está em:\nLinha: ${linhaC}\nColuna: ${colC}\ndx: ${dx}\ndy: ${dy}`)
+  console.log(`Não consegui colocar a palavra: ${palavra}`);
 }
 
-for(let i = 0; i < palavrasCertas.length; i++){
-  colocarPalavras(`${palavrasCertas[i]}`)
+for (let i = 0; i < palavrasCertas.length; i++) {
+  colocarPalavras(`${palavrasCertas[i]}`);
 }
-
 
 function preencherComLetras() {
   const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -158,25 +246,62 @@ celulas.forEach((cel) => {
     const dx = fim.coluna - inicio.coluna;
     const dy = fim.linha - inicio.linha;
 
-    if (dx === 0 || dy === 0 || Math.abs(dx) === Math.abs(dy)) {
-      const palavraSelecionada = caminho.map((c) => c.textContent).join("");
-      console.log("Palavra selecionada:", palavraSelecionada);
+  if (dx === 0 || dy === 0 || Math.abs(dx) === Math.abs(dy)) {
+  const palavraSelecionada = caminho.map((c) => c.textContent).join("");
+  console.log("Palavra selecionada:", palavraSelecionada);
 
-      if (palavrasCertas.includes(palavraSelecionada)) {
-        caminho.forEach((c) => {
-          c.classList.add("selecionada");
-          setTimeout(() => {
-            c.classList.add("achada");
-            c.style.pointerEvents = "none";
-          }, 500);
+  if (palavrasCertas.includes(palavraSelecionada)) {
+    caminho.forEach((c) => {
+      c.classList.add("selecionada");
+      setTimeout(() => {
+        c.classList.add("achada");
+        c.style.pointerEvents = "none";
+
+        modal.style.display = "block";
+        const indicePalavra = palavrasCertas.indexOf(palavraSelecionada);
+        perguntaText.innerText = perguntas[indicePalavra];
+        a_text.innerText = alternativas[indicePalavra][0];
+        b_text.innerText = alternativas[indicePalavra][1];
+        c_text.innerText = alternativas[indicePalavra][2];
+        d_text.innerText = alternativas[indicePalavra][3];
+        e_text.innerText = alternativas[indicePalavra][4];
+
+        // Remove listeners anteriores para evitar múltiplos handlers
+        const btnClone = btn.cloneNode(true);
+        btn.parentNode.replaceChild(btnClone, btn);
+
+        btnClone.addEventListener("click", (event) => {
+          event.preventDefault();
+
+          const radios = document.querySelectorAll('input[name="q1"]');
+          let respostaSelecionada = null;
+
+          radios.forEach((radio) => {
+            if (radio.checked) {
+              respostaSelecionada = document.getElementById(
+                `${radio.value}_text`
+              ).textContent;
+            }
+          });
+
+          if (respostaSelecionada === respostas[indicePalavra]) {
+            alert("Parabén!!! +1"); //TROCAR ISSO POR ALGO MAIS ACEITÁVEL
+          } else {
+            alert("Errou troxa");
+          }
+
+          modal.style.display = "none";
         });
-      } else {
-        caminho.forEach((c) => {
-          c.classList.add("selecionada");
-          setTimeout(() => c.classList.remove("selecionada"), 500);
-        });
-      }
-    }
+      }, 500);
+    });
+  } else {
+    caminho.forEach((c) => {
+      c.classList.add("selecionada");
+      setTimeout(() => c.classList.remove("selecionada"), 500);
+    });
+  }
+}
+
 
     selecionando = false;
     celInicial = null;

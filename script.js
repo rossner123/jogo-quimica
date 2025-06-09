@@ -76,6 +76,7 @@ const d_text = document.getElementById("d_text")
 const e_text = document.getElementById("e_text")
 
 let contador = 0
+let perguntasRespondidas = 0
 
 
 const palavrasCertas = [
@@ -141,17 +142,11 @@ function colocarPalavras(palavra) {
         let coluna = colC + dx * i;
         grid[linha][coluna] = palavra[i];
       }
-
-      console.log(
-        `Palavra "${palavra}" colocada em:\nLinha: ${linhaC}\nColuna: ${colC}\ndx: ${dx}\ndy: ${dy}`
-      );
       return;
     }
 
     tentativas++;
   }
-
-  console.log(`Não consegui colocar a palavra: ${palavra}`);
 }
 
 for (let i = 0; i < palavrasCertas.length; i++) {
@@ -250,7 +245,6 @@ celulas.forEach((cel) => {
 
   if (dx === 0 || dy === 0 || Math.abs(dx) === Math.abs(dy)) {
   const palavraSelecionada = caminho.map((c) => c.textContent).join("");
-  console.log("Palavra selecionada:", palavraSelecionada);
 
   if (palavrasCertas.includes(palavraSelecionada)) {
 
@@ -265,7 +259,6 @@ celulas.forEach((cel) => {
       if(!palavrasAchadas.includes(palavraSelecionada)){
       setTimeout(() => {
         caminho.forEach((c) => {
-
         
         c.classList.add("achada");
 
@@ -283,6 +276,8 @@ celulas.forEach((cel) => {
         btn.parentNode.replaceChild(btnClone, btn);
 
         btnClone.addEventListener("click", (event) => {
+          perguntasRespondidas++
+          btnClone.disabled = true
           event.preventDefault();
 
           const radios = document.querySelectorAll('input[name="q1"]');
@@ -295,6 +290,10 @@ celulas.forEach((cel) => {
               respostaSelecionada = spanSelecionado.textContent
               liSelecionado = spanSelecionado.closest("li")
             }
+
+            setTimeout(() => {
+              radio.checked = null
+            }, 1000)
           });
 
           if (respostaSelecionada === respostas[indicePalavra]) {
@@ -314,8 +313,16 @@ celulas.forEach((cel) => {
 
           setTimeout(() => {
             modal.style.display = "none"
+            btnClone.disabled = false
+
+             if (palavrasAchadas.length === 12 && perguntasRespondidas === 12) {
+              document.getElementById("pontuacaoFinal").innerHTML = contador
+              const msg = mensagemFinal(contador)
+              document.getElementById("mensagemFinal").innerText = msg
+               document.getElementById("fimJogo").style.display = "flex";
+             }
           }, 1000)
-          
+
         });
       }, 500);
       })
@@ -323,11 +330,6 @@ celulas.forEach((cel) => {
 
     if(!palavrasAchadas.includes(palavraSelecionada)){
       palavrasAchadas.push(palavraSelecionada)
-    }
-    console.log(palavrasAchadas)
-
-    if (palavrasAchadas.length === 12) {
-      console.log("Voce terminou o jogo");
     }
 
   } else {
@@ -337,11 +339,15 @@ celulas.forEach((cel) => {
     });
   }
 }
-
-
     selecionando = false;
     celInicial = null;
   });
 });
 
-console.log(grid);
+function mensagemFinal(pontuacao) {
+  if (pontuacao === 12) return "🔥 Mestre supremo da sabedoria!";
+  if (pontuacao >= 9) return "💪 Por detalhe hein!";
+  if (pontuacao >= 6) return "😎 Dá pra melhorar!";
+  if (pontuacao >= 3) return "🤔 Talvez seja bom reler a matéria...";
+  return "💀 Foi sua avó apertando os botões?";
+}

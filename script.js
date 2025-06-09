@@ -33,10 +33,10 @@ const alternativas = [
   ["1", "1.5", "2", "2.5", "3"],
 
   // 2. Qual a massa de 1,5 mols de glicose (C₆H₁₂O₆)? (1.5 * 180 = 270)
-  ["180", "250", "270", "300", "330"],
+  ["270", "250", "180", "300", "330"],
 
   // 3. Calcule a massa molar do etanol (C₂H₆O). (2*12 + 6*1 + 1*16 = 46)
-  ["44", "45", "46", "47", "48"],
+  ["44", "45", "47", "46", "48"],
 
   // 4. Qual o número de moléculas em 0,5 mol de oxigênio? (0.5 * 6.022e23 ≈ 3.01e23)
   ["6.022e23", "1.204e24", "3.01e23", "2e23", "4.5e23"],
@@ -48,22 +48,22 @@ const alternativas = [
   ["56", "58", "60", "62", "64"],
 
   // 7. Calcule a massa de 4 mols de óxido de ferro (Fe₂O₃). (159.9 * 4 ≈ 639.6)
-  ["620", "639.6", "650", "670", "600"],
+  ["620", "600", "650.7", "670", "639.6"],
 
   // 8. Calcule a massa molar da sacarose (C₁₂H₂₂O₁₁). (12*12 + 22*1 + 11*16 = 342)
-  ["340", "342", "345", "350", "355"],
+  ["342", "340", "345", "350", "355"],
 
   // 9. Calcule o número de átomos em 2 mols de alumínio metálico. (2 * 6.022e23 ≈ 1.204e24)
   ["6.022e23", "1e24", "1.204e24", "2e24", "1.5e24"],
 
   // 10. Quantos elétrons há em 1 mol de átomos de sódio neutros? (1 mol = 6.022e23 elétrons)
-  ["1e23", "3.01e23", "6.022e23", "1e24", "9e23"],
+  ["1e23", "3.01e23", "1e24", "9e23", "6.022e23"],
 
   // 11. Calcule a massa molar do ácido sulfúrico (H₂SO₄). (2*1 + 32 + 4*16 = 98)
   ["96", "98", "100", "102", "94"],
 
   // 12. Quantos mols há em 120 g de cálcio? (massa molar = 40 → 120 / 40 = 3)
-  ["2", "2.5", "3", "3.5", "4"]
+  ["2", "2.5", "4", "3.5", "3"]
 ];
 
 

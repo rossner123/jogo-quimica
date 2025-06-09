@@ -253,16 +253,21 @@ celulas.forEach((cel) => {
   console.log("Palavra selecionada:", palavraSelecionada);
 
   if (palavrasCertas.includes(palavraSelecionada)) {
-    caminho.forEach((c) => {
 
-      document.querySelectorAll("li").forEach((li) => {
+     document.querySelectorAll("li").forEach((li) => {
         li.classList.remove("respCerta", "respErrada");
       });
 
+    caminho.forEach((c) => {
       c.classList.add("selecionada");
+    });
+
+      if(!palavrasAchadas.includes(palavraSelecionada)){
       setTimeout(() => {
+        caminho.forEach((c) => {
+
+        
         c.classList.add("achada");
-        c.style.pointerEvents = "none";
 
         modal.style.display = "block";
         const indicePalavra = palavrasCertas.indexOf(palavraSelecionada);
@@ -313,7 +318,18 @@ celulas.forEach((cel) => {
           
         });
       }, 500);
-    });
+      })
+    }
+
+    if(!palavrasAchadas.includes(palavraSelecionada)){
+      palavrasAchadas.push(palavraSelecionada)
+    }
+    console.log(palavrasAchadas)
+
+    if (palavrasAchadas.length === 12) {
+      console.log("Voce terminou o jogo");
+    }
+
   } else {
     caminho.forEach((c) => {
       c.classList.add("selecionada");
